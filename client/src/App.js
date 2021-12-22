@@ -11,11 +11,11 @@ import { useHistory } from "react-router-dom";
 function App() {
   const dispatch = useDispatch();
 
-  const history = useHistory();
-  useEffect(() => {
-    dispatch(getAuthUser());
-    history.push("/dash");
-  }, []);
+  // const history = useHistory();
+  // useEffect(() => {
+  //   dispatch(getAuthUser());
+  //   history.push("/dash");
+  // }, []);
   return (
     <div className="App">
       <ButtonAppBar />

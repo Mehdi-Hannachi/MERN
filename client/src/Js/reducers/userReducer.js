@@ -5,6 +5,8 @@ import {
   USER_LOGIN,
   USER_REGISTER,
   LOGOUT,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_FAILED,
 } from "../constants/userConstants";
 
 const initState = {
@@ -14,45 +16,31 @@ const initState = {
   token: localStorage.getItem("token"),
   msg: null,
 };
-const userReducer = (state = initState, action) => {
-  switch (action.type) {
+const userReducer = (state = initState, { type, payload }) => {
+  switch (type) {
     case USER_REGISTER:
-    case USER_LOGIN:
-      console.log("token", action.payload.token);
-      localStorage.setItem("token", action.payload.token);
-      return {
-        ...state,
-        ...action.payload,
-        loading: false,
-        error: null,
-        isAuth: true, // token ,msg
-      };
-
-    case USER_LOADING:
       return {
         ...state,
         loading: true,
       };
-    case LOGOUT:
+    case USER_REGISTER_SUCCESS:
+      localStorage.setItem("token", payload.token);
+
       return {
         ...state,
-        isAuth: false,
         loading: false,
-        user: null,
-        token: null,
-        msg: null,
+        ...payload,
+        error: null,
+        isAuth: true, // token ,msg
       };
-    case GET_AUTH_USER:
+    case USER_REGISTER_FAILED:
       return {
         ...state,
-        ...action.payload,
+        loading: false,
+        error: payload,
+        isAuth: true, // token ,msg
       };
-    case AUTH_ERRORS:
-      localStorage.removeItem("token");
-      return {
-        ...state,
-        ...action.payload,
-      };
+
     default:
       return state;
   }
