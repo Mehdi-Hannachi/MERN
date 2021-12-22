@@ -7,6 +7,8 @@ import {
   LOGOUT,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILED,
+  USER_LOGIN_FAILED,
+  USER_LOGIN_SUCCESS,
 } from "../constants/userConstants";
 
 const initState = {
@@ -19,11 +21,13 @@ const initState = {
 const userReducer = (state = initState, { type, payload }) => {
   switch (type) {
     case USER_REGISTER:
+    case USER_LOGIN:
       return {
         ...state,
         loading: true,
       };
     case USER_REGISTER_SUCCESS:
+    case USER_LOGIN_SUCCESS:
       localStorage.setItem("token", payload.token);
 
       return {
@@ -34,11 +38,20 @@ const userReducer = (state = initState, { type, payload }) => {
         isAuth: true, // token ,msg
       };
     case USER_REGISTER_FAILED:
+    case USER_LOGIN_FAILED:
       return {
         ...state,
         loading: false,
         error: payload,
         isAuth: true, // token ,msg
+      };
+
+    case LOGOUT:
+      localStorage.removeItem("token");
+
+      return {
+        ...state,
+        isAuth: false,
       };
 
     default:

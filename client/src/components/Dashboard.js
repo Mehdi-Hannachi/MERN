@@ -1,9 +1,11 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.userReducer.isAuth);
 
-  return <div>dashboard</div>;
+  return !isAuth ? <Redirect to="/login" /> : <div>dashboard</div>;
 };
 
 export default Dashboard;
