@@ -6,9 +6,15 @@ import {
   USER_LOADING,
   USER_LOGIN,
   USER_REGISTER,
+  USER_REGISTER_FAILED,
+  USER_REGISTER_SUCCESS,
 } from "../constants/userConstants";
 
+/********************** User register action creator ******************** */
+
 export const register = (formData) => async (dispatch) => {
+  dispatch({ type: USER_REGISTER });
+
   try {
     // const config={
     //     headers:{
@@ -18,13 +24,13 @@ export const register = (formData) => async (dispatch) => {
     const res = await axios.post("/api/auth/register", formData);
 
     dispatch({
-      type: USER_REGISTER,
+      type: USER_REGISTER_SUCCESS,
       payload: res.data, // {msg:"user registered",token}
     });
   } catch (error) {
     console.dir(error);
     dispatch({
-      type: AUTH_ERRORS,
+      type: USER_REGISTER_FAILED,
       payload: error.response.data,
     });
   }
