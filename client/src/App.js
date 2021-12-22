@@ -8,6 +8,7 @@ import { getAuthUser } from "./Js/actions/userActions";
 import ButtonAppBar from "./components/AppNavBar";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
 function App() {
   const dispatch = useDispatch();
 
@@ -21,7 +22,7 @@ function App() {
       <ButtonAppBar />
       <Route exact path="/register" component={SignUp} />
       <Route path="/login" component={SignIn} />
-      <Route path="/dash" render={() => <h1>dash</h1>} />
+      <Route path="/dash" render={() => <Dashboard />} />
     </div>
   );
 }

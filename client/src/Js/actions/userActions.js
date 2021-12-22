@@ -5,6 +5,8 @@ import {
   LOGOUT,
   USER_LOADING,
   USER_LOGIN,
+  USER_LOGIN_FAILED,
+  USER_LOGIN_SUCCESS,
   USER_REGISTER,
   USER_REGISTER_FAILED,
   USER_REGISTER_SUCCESS,
@@ -35,27 +37,35 @@ export const register = (formData) => async (dispatch) => {
     });
   }
 };
+
+/********************** Logout action creator *********************** */
+
+export const logout = () => async (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+  });
+};
+
+/********************** Login action creator *********************** */
+
 export const login = (formData) => async (dispatch) => {
+  dispatch({ type: USER_LOGIN });
+
   try {
     const res = await axios.post("/api/auth/login", formData);
 
     dispatch({
-      type: USER_LOGIN,
+      type: USER_LOGIN_SUCCESS,
       payload: res.data, //{msg:"user logged",token}
     });
   } catch (error) {
     console.dir(error);
 
     dispatch({
-      type: AUTH_ERRORS,
+      type: USER_LOGIN_FAILED,
       payload: error.response.message.data,
     });
   }
-};
-export const logout = () => async (dispatch) => {
-  dispatch({
-    type: LOGOUT,
-  });
 };
 
 export const getAuthUser = () => async (dispatch) => {

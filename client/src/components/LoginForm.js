@@ -12,8 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { useDispatch } from "react-redux";
-import { Link as Linkk } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link as Linkk, Redirect } from "react-router-dom";
 
 import { login } from "../Js/actions/userActions";
 
@@ -23,9 +23,8 @@ function Copyright() {
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{" "}
+      </Link>
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }
@@ -51,6 +50,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const isAuth = useSelector((state) => state.userReducer.isAuth);
+
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,7 +61,9 @@ export default function SignIn() {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
-  return (
+  return isAuth ? (
+    <Redirect to="/dash" />
+  ) : (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
