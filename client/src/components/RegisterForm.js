@@ -13,7 +13,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { Link as Linkk, Redirect } from "react-router-dom";
 
 import { register } from "../Js/actions/userActions";
 
@@ -66,9 +65,8 @@ export default function SignUp() {
     setEmail("");
     setPassword("");
   };
-  return isAuth ? (
-    <Redirect to="/dash" />
-  ) : (
+  return (
+    
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -136,9 +134,9 @@ export default function SignUp() {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Linkk to={"/login"} variant="body2">
+                <Link to={"/login"} variant="body2">
                   Already have an account? Sign in
-                </Linkk>
+                </Link>
               </Grid>
             </Grid>
           </form>
