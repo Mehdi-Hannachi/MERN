@@ -2,6 +2,8 @@ import axios from "axios";
 import {
   AUTH_ERRORS,
   GET_AUTH_USER,
+  GET_AUTH_USER_FAILED,
+  GET_AUTH_USER_SUCCESS,
   LOGOUT,
   USER_LOADING,
   USER_LOGIN,
@@ -58,6 +60,8 @@ export const login = (formData) => async (dispatch) => {
       type: USER_LOGIN_SUCCESS,
       payload: res.data, //{msg:"user logged",token}
     });
+
+    localStorage.setItem("token", res.data.token);
   } catch (error) {
     console.dir(error);
 
@@ -69,24 +73,25 @@ export const login = (formData) => async (dispatch) => {
 };
 
 export const getAuthUser = () => async (dispatch) => {
+  dispatch({
+    type: GET_AUTH_USER,
+  });
+  const config = {
+    headers: {
+      authorization: localStorage.getItem("token"),
+    },
+  };
+
   try {
-    dispatch({
-      type: USER_LOADING,
-    });
-    const config = {
-      headers: {
-        "x-auth": localStorage.getItem("token"),
-      },
-    };
     const res = await axios.get("/api/auth/me", config);
     dispatch({
-      type: GET_AUTH_USER,
+      type: GET_AUTH_USER_SUCCESS,
       payload: res.data, //{user:req.user}
     });
   } catch (error) {
     console.dir(error.response);
     dispatch({
-      type: AUTH_ERRORS,
+      type: GET_AUTH_USER_FAILED,
       payload: error.response.data,
     });
   }

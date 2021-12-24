@@ -7,8 +7,8 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { logout } from "../Js/actions/userActions";
+import { Link, Navigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -40,9 +40,14 @@ export default function ButtonAppBar() {
     </div>
   );
   const LogLinks = (
-    <Button color="inherit" onClick={logoutUser}>
-      logout
-    </Button>
+    <div>
+      <Button color="inherit" onClick={logoutUser}>
+        logout
+      </Button>
+      <Link to="/profile">
+        <Button color="inherit">Profile</Button>
+      </Link>
+    </div>
   );
   return (
     <div className={classes.root}>
@@ -59,7 +64,7 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          {isAuth ? LogLinks : guestLinks}
+          {localStorage.getItem("token") ? LogLinks : guestLinks}
         </Toolbar>
       </AppBar>
     </div>

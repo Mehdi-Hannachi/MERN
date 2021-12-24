@@ -50,7 +50,7 @@ module.exports = {
         userId: user._id,
       };
       const token = await jwt.sign(payload, "SecretKey", { expiresIn: "7d" });
-      res.json({ msg: "user logged", token });
+      res.json({ msg: "user logged", token: `Bearer ${token}` });
     } catch (error) {
       res.status(500).json("server error");
     }

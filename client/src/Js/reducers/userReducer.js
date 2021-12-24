@@ -9,6 +9,8 @@ import {
   USER_REGISTER_FAILED,
   USER_LOGIN_FAILED,
   USER_LOGIN_SUCCESS,
+  GET_AUTH_USER_FAILED,
+  GET_AUTH_USER_SUCCESS,
 } from "../constants/userConstants";
 
 const initState = {
@@ -17,16 +19,34 @@ const initState = {
   user: null,
   token: localStorage.getItem("token"),
   msg: null,
+  error: null,
 };
 const userReducer = (state = initState, { type, payload }) => {
   switch (type) {
     case USER_REGISTER:
     case USER_LOGIN:
+    case GET_AUTH_USER:
       return {
         ...state,
         loading: true,
       };
     case USER_REGISTER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        ...payload,
+        isAuth: true, // token ,msg
+      };
+
+    case GET_AUTH_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        ...payload,
+
+        isAuth: true, // token ,msg
+      };
+
     case USER_LOGIN_SUCCESS:
       localStorage.setItem("token", payload.token);
 
@@ -39,11 +59,12 @@ const userReducer = (state = initState, { type, payload }) => {
       };
     case USER_REGISTER_FAILED:
     case USER_LOGIN_FAILED:
+    case GET_AUTH_USER_FAILED:
       return {
         ...state,
         loading: false,
         error: payload,
-        isAuth: true, // token ,msg
+        isAuth: false, // token ,msg
       };
 
     case LOGOUT:

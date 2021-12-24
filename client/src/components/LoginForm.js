@@ -13,7 +13,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { Link as Linkk, Redirect } from "react-router-dom";
 
 import { login } from "../Js/actions/userActions";
 
@@ -50,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const isAuth = useSelector((state) => state.userReducer.isAuth);
+  // const isAuth = useSelector((state) => state.userReducer.isAuth);
 
   const classes = useStyles();
   const [email, setEmail] = useState("");
@@ -61,9 +60,8 @@ export default function SignIn() {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
-  return isAuth ? (
-    <Redirect to="/dash" />
-  ) : (
+  return (
+  
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -110,7 +108,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleLogin}
+            onClick={(e) => handleLogin(e)}
           >
             Sign In
           </Button>
@@ -119,9 +117,9 @@ export default function SignIn() {
               <Link variant="body2">Forgot password?</Link>
             </Grid>
             <Grid item>
-              <Linkk to="/register" variant="body2">
+              <Link to="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
-              </Linkk>
+              </Link>
             </Grid>
           </Grid>
         </form>
